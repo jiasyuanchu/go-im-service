@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>WebSocket聊天室</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+
+    #chat-container {
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      height: 400px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    #message-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 10px;
+      background-color: #f9f9f9;
+    }
+
+    #input-container {
+      display: flex;
+      padding: 10px;
+      border-top: 1px solid #ddd;
+    }
+
+    #message-input {
+      flex: 1;
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+
+    #send-button {
+      padding: 8px 15px;
+      margin-left: 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    #send-button:hover {
+      background-color: #45a049;
+    }
+
+    .message {
+      margin-bottom: 10px;
+      padding: 8px;
+      border-radius: 5px;
+    }
+
+    .system-message {
+      background-color: #e6e6e6;
+      text-align: center;
+      font-style: italic;
+    }
+
+    .user-message {
+      background-color: #d4edda;
+      text-align: right;
+    }
+
+    .other-message {
+      background-color: #d1ecf1;
+      text-align: left;
+    }
+
+    .login-container {
+      margin-bottom: 20px;
+    }
+
+    #username-input {
+      padding: 8px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      width: 200px;
+    }
+
+    #login-button {
+      padding: 8px 15px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>WebSocket聊天室</h1>
+
+  <div class="login-container" id="login-form">
+    <input type="text" id="username-input" placeholder="請輸入用戶名">
+    <button id="login-button">進入聊天室</button>
+  </div>
+
+  <div id="chat-container" style="display: none;">
+    <div id="message-container"></div>
+    <div id="input-container">
+      <input type="text" id="message-input" placeholder="輸入訊息...">
+      <button id="send-button">發送</button>
+    </div>
+  </div>
+
+  <script>
+    let socket;
+    let username = '';
+
+    document.getElementById('login-button').addEventListener('click', function () {
+      username = document.getElementById('username-input').value.trim();
+      if (username) {
+        document.getElementById('login-form').style.display = 'none';
+        document.getElementById('chat-container').style.display = 'flex';
+        connectWebSocket();
+      } else {
+        alert('請輸入用戶名');
+      }
+    });
+
+    function connectWebSocket() {
+      // Determine WebSocket protocol based on page protocol
+      const wsProtocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+      const wsUrl = `${wsProtocol}//${window.location.host}/ws?username=${encodeURIComponent(username)}`;
+
+      socket = new WebSocket(wsUrl);
+
+      socket.onopen = function (e) {
+        console.log('WebSocket connection established');
+        addMessage('系統', '已連接到聊天室', 'system');
+
+        // Send join message
+        const joinMsg = {
+          type: 'join',
+          content: '加入了聊天室',
+          sender: username
+        };
+        socket.send(JSON.stringify(joinMsg));
+      };
+
+      socket.onmessage = function (event) {
+        const message = JSON.parse(event.data);
+        addMessage(message.sender, message.content,
+          message.sender === username ? 'user' :
+            message.type === 'system' ? 'system' : 'other');
+      };
+
+      socket.onclose = function (event) {
+        if (event.wasClean) {
+          addMessage('系統', `連接已關閉，代碼: ${event.code}，原因: ${event.reason}`, 'system');
+        } else {
+          addMessage('系統', '連接中斷', 'system');
+        }
+      };
+
+      socket.onerror = function (error) {
+        addMessage('系統', '發生錯誤', 'system');
+        console.error('WebSocket error:', error);
+      };
+    }
+
+    document.getElementById('send-button').addEventListener('click', sendMessage);
+    document.getElementById('message-input').addEventListener('keypress', function (e) {
+      if (e.key === 'Enter') {
+        sendMessage();
+      }
+    });
+
+    function sendMessage() {
+      const messageInput = document.getElementById('message-input');
+      const message = messageInput.value.trim();
+      if (message && socket && socket.readyState === WebSocket.OPEN) {
+        // Create and send message object
+        const msgObj = {
+          type: 'message',
+          content: message,
+          sender: username
+        };
+        socket.send(JSON.stringify(msgObj));
+        messageInput.value = '';
+      }
+    }
+
+    function addMessage(sender, content, type) {
+      const messageContainer = document.getElementById('message-container');
+      const messageElement = document.createElement('div');
+
+      messageElement.className = `message ${type}-message`;
+
+      if (type === 'system') {
+        messageElement.textContent = content;
+      } else {
+        messageElement.innerHTML = `<strong>${sender}</strong>: ${content}`;
+      }
+
+      messageContainer.appendChild(messageElement);
+      // Scroll to the latest message
+      messageContainer.scrollTop = messageContainer.scrollHeight;
+    }
+  </script>
+</body>
+
+</html>
