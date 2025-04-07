@@ -5,6 +5,7 @@ import (
 	"log"
 	"net/http"
 	"sync"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
@@ -141,26 +142,6 @@ func (c *Client) readPump(room *Room) {
 	}
 }
 
-// Client message writing loop
-func (c *Client) writePump() {
-	defer c.Conn.Close()
-
-	for {
-		message, ok := <-c.Send
-		if !ok {
-			// Channel closed
-			c.Conn.WriteMessage(websocket.CloseMessage, []byte{})
-			return
-		}
-
-		err := c.Conn.WriteMessage(websocket.TextMessage, message)
-		if err != nil {
-			log.Println("Error writing message:", err)
-			return
-		}
-	}
-}
-
 func main() {
 	// Create Gin router
 	r := gin.Default()
@@ -186,5 +167,31 @@ func main() {
 	log.Println("Server starting on :8080")
 	if err := r.Run(":8080"); err != nil {
 		log.Fatal("Server failed to start:", err)
+	}
+}
+
+// Client message writing loop
+func (c *Client) writePump() {
+	ticker := time.NewTicker(30 * time.Second) // every 30 seconds
+	defer func() {
+		ticker.Stop()
+		c.Conn.Close()
+	}()
+
+	for {
+		select {
+		case message, ok := <-c.Send:
+			if !ok {
+				c.Conn.WriteMessage(websocket.CloseMessage, []byte{})
+				return
+			}
+			if err := c.Conn.WriteMessage(websocket.TextMessage, message); err != nil {
+				return
+			}
+		case <-ticker.C:
+			if err := c.Conn.WriteMessage(websocket.PingMessage, []byte("ping")); err != nil {
+				return
+			}
+		}
 	}
 }
