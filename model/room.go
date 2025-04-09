@@ -10,7 +10,6 @@ type Room struct {
 	Mutex      sync.Mutex
 }
 
-// NewRoom initializes a new chat room
 func NewRoom() *Room {
 	return &Room{
 		Clients:    make(map[string]*Client),
