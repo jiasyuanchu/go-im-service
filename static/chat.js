@@ -83,7 +83,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 顯示訊息
+  // 在文件頂部添加顏色生成函數
+  function getColorFromUsername(username) {
+    let hash = 0;
+    for (let i = 0; i < username.length; i++) {
+      hash = username.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    const hue = hash % 360; // HSL 色相範圍 0-360
+    return `hsl(${hue}, 70%, 80%)`; // 使用 HSL 顏色，保持飽和度和亮度一致
+  }
+
+  // 修改 displayMessage 函數
   function displayMessage(message) {
     const messageElement = document.createElement("p");
     const timestamp = new Date().toLocaleTimeString();
@@ -95,13 +105,15 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       // 使用者訊息
       messageElement.className = "user-message";
+      const userColor = getColorFromUsername(message.sender); // 根據 sender 生成顏色
+      messageElement.style.backgroundColor = userColor; // 設置背景顏色
+      messageElement.style.color = "#333"; // 確保文字可讀性
       messageElement.textContent = `[${timestamp}] ${message.sender}: ${message.content}`;
     }
 
     messagesDiv.appendChild(messageElement);
     messagesDiv.scrollTop = messagesDiv.scrollHeight; // 自動滾動到底部
   }
-
   // 處理離開聊天室
   window.onbeforeunload = function () {
     if (ws && ws.readyState === WebSocket.OPEN) {

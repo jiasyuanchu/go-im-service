@@ -90,3 +90,12 @@ button {
 button:hover {
   background-color: #0056b3;
 }
+
+#messages .user-message {
+  margin: 5px 0;
+  padding: 8px;
+  border-radius: 5px;
+  max-width: 70%;
+  word-wrap: break-word;
+  /* 移除固定的 background-color，讓 JS 動態設置 */
+}
