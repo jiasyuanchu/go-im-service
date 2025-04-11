@@ -14,7 +14,6 @@ document.addEventListener('DOMContentLoaded', () => {
   let colorIndex = 0;
   let ws = null;
 
-  // 加入聊天室
   function joinChat() {
     const username = usernameInput.value.trim();
     if (!username) {
@@ -22,16 +21,13 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
-    // 建立 WebSocket 連線
     ws = new WebSocket(`ws://localhost:8080/ws?username=${encodeURIComponent(username)}`);
 
     ws.onopen = function () {
       console.log("Connected to WebSocket server");
-      // 隱藏加入區域，顯示聊天區域
       joinSection.style.display = "none";
       chatSection.style.display = "block";
 
-      // 發送加入訊息
       const joinMessage = {
         type: "join",
         content: `${username} joined the chat`,
@@ -78,7 +74,6 @@ document.addEventListener('DOMContentLoaded', () => {
     return userColors.get(username);
   }
 
-  // 發送訊息
   function sendMessage() {
     const content = messageInput.value.trim();
     if (!content) {
@@ -100,7 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 在文件頂部添加顏色生成函數
   function getColorFromUsername(username) {
     let hash = 0;
     for (let i = 0; i < username.length; i++) {
