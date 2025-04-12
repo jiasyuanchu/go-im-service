@@ -138,11 +138,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   };
 
-  // 綁定按鈕事件
   joinBtn.addEventListener('click', joinChat);
   sendBtn.addEventListener('click', sendMessage);
 
-  // 支援 Enter 鍵發送訊息
   messageInput.addEventListener('keypress', (event) => {
     if (event.key === 'Enter') {
       sendMessage();
