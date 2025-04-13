@@ -9,8 +9,9 @@ body {
   height: 100vh;
 }
 
-.chat-container {
-  width: 400px;
+.container {
+  width: 800px;
+  /* 固定寬度 */
   background-color: white;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -26,14 +27,15 @@ h1 {
   margin-bottom: 20px;
 }
 
-#join-section,
-#chat-section {
+.join-section,
+.chat-section {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 100%;
 }
 
-#messages {
+.chat-messages {
   flex: 1;
   border: 1px solid #ddd;
   border-radius: 5px;
@@ -41,37 +43,51 @@ h1 {
   overflow-y: auto;
   background-color: #fafafa;
   margin-bottom: 10px;
+  height: calc(80vh - 150px);
+  width: calc(100% - 22px);
 }
 
 #messages p {
-  margin: 5px 0;
-  padding: 8px;
-  border-radius: 5px;
-  max-width: 70%;
+  margin: 8px 0;
+  padding: 10px;
+  border-radius: 8px;
+  width: auto;
   word-wrap: break-word;
+  overflow-wrap: break-word;
+  box-sizing: border-box;
 }
 
-#messages .message-sent {
-  background-color: #007bff;
-  color: white;
-  margin-left: auto;
-  text-align: right;
-}
-
-#messages .message-received {
+.system-message {
   background-color: #e9ecef;
-  color: #333;
-  margin-right: auto;
+  color: #666;
+  margin: 5px auto !important;
+  font-style: italic;
+  padding: 5px 10px !important;
+  text-align: center;
+  width: 90% !important;
 }
 
-.input-area {
+.user-message {
+  margin: 5px 0;
+  padding: 10px;
+  border-radius: 8px;
+  width: auto !important;
+  max-width: 100% !important;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+
+.message-input {
   display: flex;
   gap: 10px;
+  margin-top: 10px;
+  width: 100%;
 }
 
 input[type="text"] {
   flex: 1;
-  padding: 10px;
+  padding: 12px;
   border: 1px solid #ddd;
   border-radius: 5px;
   font-size: 16px;
@@ -85,17 +101,25 @@ button {
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
+  transition: background-color 0.2s;
 }
 
 button:hover {
   background-color: #0056b3;
 }
 
-#messages .user-message {
-  margin: 5px 0;
-  padding: 8px;
-  border-radius: 5px;
-  max-width: 70%;
-  word-wrap: break-word;
-  /* 移除固定的 background-color，讓 JS 動態設置 */
+/* 針對較小的螢幕進行響應式設計 */
+@media (max-width: 850px) {
+  .container {
+    width: 90%;
+    min-width: 600px;
+  }
+}
+
+/* 針對非常小的螢幕 */
+@media (max-width: 650px) {
+  .container {
+    width: 95%;
+    min-width: 320px;
+  }
 }

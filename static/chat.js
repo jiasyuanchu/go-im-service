@@ -113,9 +113,11 @@ document.addEventListener('DOMContentLoaded', () => {
       messageElement.textContent = `[${timestamp}] ${message.content}`;
     } else {
       messageElement.className = "user-message";
-      const userColor = getColorFromUsername(message.sender); // 獲取或分配顏色
+      const userColor = getColorFromUsername(message.sender);
       messageElement.style.backgroundColor = userColor;
       messageElement.style.color = "#333";
+
+      // 創建內容元素以確保長文本正確換行
       messageElement.textContent = `[${timestamp}] ${message.sender}: ${message.content}`;
     }
 
