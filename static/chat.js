@@ -100,8 +100,8 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 0; i < username.length; i++) {
       hash = username.charCodeAt(i) + ((hash << 5) - hash);
     }
-    const hue = hash % 360; // HSL 色相範圍 0-360
-    return `hsl(${hue}, 70%, 80%)`; // 使用 HSL 顏色，保持飽和度和亮度一致
+    const hue = hash % 360;
+    return `hsl(${hue}, 70%, 80%)`;
   }
 
   function displayMessage(message) {
