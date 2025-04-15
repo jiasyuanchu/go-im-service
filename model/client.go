@@ -28,9 +28,11 @@ func (c *Client) WritePump() {
 		case message, ok := <-c.Send:
 			if !ok {
 				c.Conn.WriteMessage(websocket.CloseMessage, []byte{})
+				log.Panicln("Client disconnected")
 				return
 			}
 			if err := c.Conn.WriteMessage(websocket.TextMessage, message); err != nil {
+				log.Printf("error: %v", err)
 				return
 			}
 		case <-ticker.C:
