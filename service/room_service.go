@@ -22,13 +22,13 @@ func (rs *RoomService) Run() {
 	for {
 		select {
 		case client := <-rs.room.Register:
-			rs.room.Mutex.Lock() // 改為大寫 Mutex
+			rs.room.Mutex.Lock()
 			rs.room.Clients[client.ID] = client
 			rs.room.Mutex.Unlock()
 			log.Printf("Client %s joined with username: %s\n", client.ID, client.Username)
 
 		case client := <-rs.room.Unregister:
-			rs.room.Mutex.Lock() // 改為大寫 Mutex
+			rs.room.Mutex.Lock()
 			if _, ok := rs.room.Clients[client.ID]; ok {
 				delete(rs.room.Clients, client.ID)
 				close(client.Send)
@@ -37,7 +37,7 @@ func (rs *RoomService) Run() {
 			log.Printf("Client %s left\n", client.ID)
 
 		case message := <-rs.room.Broadcast:
-			rs.room.Mutex.Lock() // 改為大寫 Mutex
+			rs.room.Mutex.Lock()
 			for _, client := range rs.room.Clients {
 				select {
 				case client.Send <- []byte(message):
