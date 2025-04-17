@@ -5,24 +5,59 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Go Chatroom</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link rel="stylesheet" href="/static/style.css">
 </head>
 
 <body>
   <div class="container">
-    <h1>Go Chatroom</h1>
-    <div class="join-section" id="join-section">
-      <input type="text" id="username" placeholder="Enter your username">
-      <button id="join-btn">Join</button>
+    <div class="chat-header">
+      <h1><i class="fas fa-comments"></i> Go Chatroom</h1>
     </div>
+
+    <div class="join-section fade-in" id="join-section">
+      <div class="welcome-text">
+        <h2>Welcome to Go Chatroom</h2>
+        <p>Enter a username to start chatting with others</p>
+      </div>
+      <div class="input-group">
+        <i class="fas fa-user"></i>
+        <input type="text" id="username" placeholder="Enter your username" autocomplete="off">
+      </div>
+      <button id="join-btn" class="join-btn">
+        <i class="fas fa-sign-in-alt"></i> Join Chat
+      </button>
+    </div>
+
     <div class="chat-section" id="chat-section" style="display: none;">
-      <div class="chat-messages" id="messages"></div>
+      <div class="chat-messages" id="messages">
+        <!-- Messages will be added here dynamically -->
+      </div>
+
       <div class="message-input">
-        <input type="text" id="message-input" placeholder="Type a message...">
-        <button id="send-btn">Send</button>
+        <button class="emoji-btn" id="emoji-btn">
+          <i class="far fa-smile"></i>
+        </button>
+        <input type="text" id="message-input" placeholder="Type a message..." autocomplete="off">
+        <button id="send-btn">
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </div>
+
+      <div class="chat-footer">
+        <div class="online-status">
+          <div class="status-dot"></div>
+          <span>Online</span>
+        </div>
+        <div class="app-info">
+          <span>Powered by CH Co.</span>
+        </div>
       </div>
     </div>
   </div>
+
+  <script src="/static/emoji.js"></script>
+
   <script src="/static/chat.js"></script>
 </body>
 

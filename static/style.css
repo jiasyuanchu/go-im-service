@@ -1,56 +1,137 @@
-body {
+:root {
+  --primary-color: #007bff;
+  --primary-dark: #0056b3;
+  --secondary-color: #6c757d;
+  --light-bg: #f0f2f5;
+  --white: #ffffff;
+  --light-gray: #fafafa;
+  --border-color: #ddd;
+  --system-message-bg: #e9ecef;
+  --shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  --border-radius: 10px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
   font-family: Arial, sans-serif;
-  background-color: #f0f2f5;
+}
+
+body {
+  background-color: var(--light-bg);
   margin: 0;
   padding: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100vh;
+  color: #333;
 }
 
 .container {
   width: 800px;
-  /* 固定寬度 */
-  background-color: white;
-  border-radius: 10px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  padding: 20px;
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 0;
   display: flex;
   flex-direction: column;
   height: 80vh;
+  overflow: hidden;
 }
 
-h1 {
+.chat-header {
+  background: linear-gradient(135deg, var(--primary-color), #0096ff);
+  color: var(--white);
+  padding: 15px 20px;
   text-align: center;
-  color: #333;
-  margin-bottom: 20px;
+  border-radius: var(--border-radius) var(--border-radius) 0 0;
+}
+
+.chat-header h1 {
+  margin: 0;
+  font-size: 1.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
 }
 
 .join-section,
 .chat-section {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 15px;
   width: 100%;
+  padding: 20px;
+}
+
+.join-section {
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+}
+
+.welcome-text {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.welcome-text h2 {
+  color: var(--primary-color);
+  margin-bottom: 10px;
+}
+
+.welcome-text p {
+  color: var(--secondary-color);
+  font-size: 0.9rem;
+}
+
+.input-group {
+  width: 100%;
+  max-width: 400px;
+  position: relative;
+}
+
+.input-group i {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--secondary-color);
+}
+
+.input-group input {
+  width: 100%;
+  padding: 12px 12px 12px 40px;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+.input-group input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+  outline: none;
 }
 
 .chat-messages {
   flex: 1;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-color);
   border-radius: 5px;
-  padding: 10px;
+  padding: 15px;
   overflow-y: auto;
-  background-color: #fafafa;
+  background-color: var(--light-gray);
   margin-bottom: 10px;
-  height: calc(80vh - 150px);
-  width: calc(100% - 22px);
+  height: calc(80vh - 180px);
 }
 
 #messages p {
   margin: 8px 0;
-  padding: 10px;
-  border-radius: 8px;
+  padding: 10px 15px;
+  border-radius: 15px;
   width: auto;
   word-wrap: break-word;
   overflow-wrap: break-word;
@@ -58,24 +139,37 @@ h1 {
 }
 
 .system-message {
-  background-color: #e9ecef;
+  background-color: var(--system-message-bg);
   color: #666;
-  margin: 5px auto !important;
+  margin: 10px auto !important;
   font-style: italic;
-  padding: 5px 10px !important;
+  padding: 8px 15px !important;
   text-align: center;
   width: 90% !important;
+  border-radius: 20px !important;
+  font-size: 0.9rem;
 }
 
 .user-message {
   margin: 5px 0;
-  padding: 10px;
-  border-radius: 8px;
+  padding: 10px 15px;
+  border-radius: 18px;
   width: auto !important;
-  max-width: 100% !important;
+  max-width: 80% !important;
   word-wrap: break-word;
   overflow-wrap: break-word;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 0.3s ease;
+  float: left;
+  clear: both;
+}
+
+.message-meta {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
 }
 
 .message-input {
@@ -83,32 +177,124 @@ h1 {
   gap: 10px;
   margin-top: 10px;
   width: 100%;
+  padding: 0 5px;
 }
 
 input[type="text"] {
   flex: 1;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  padding: 12px 15px;
+  border: 1px solid var(--border-color);
+  border-radius: 25px;
   font-size: 16px;
+  transition: all 0.3s ease;
+}
+
+input[type="text"]:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+  outline: none;
 }
 
 button {
   padding: 10px 20px;
-  background-color: #007bff;
-  color: white;
+  background-color: var(--primary-color);
+  color: var(--white);
   border: none;
   border-radius: 5px;
   cursor: pointer;
   font-size: 16px;
-  transition: background-color 0.2s;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
 }
 
 button:hover {
-  background-color: #0056b3;
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
 }
 
-/* 針對較小的螢幕進行響應式設計 */
+.join-btn {
+  width: 100%;
+  max-width: 400px;
+  border-radius: 25px;
+  padding: 12px;
+  margin-top: 10px;
+}
+
+#send-btn {
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  padding: 0;
+}
+
+.chat-footer {
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid var(--border-color);
+  color: var(--secondary-color);
+  font-size: 0.8rem;
+}
+
+.online-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background-color: #28a745;
+  border-radius: 50%;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+/* Clear fix for messages */
+.chat-messages::after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+/* Emoji button */
+.emoji-btn {
+  background: none;
+  border: none;
+  color: var(--secondary-color);
+  font-size: 1.2rem;
+  cursor: pointer;
+  padding: 10px;
+  transition: all 0.3s ease;
+  border-radius: 50%;
+}
+
+.emoji-btn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+  color: var(--primary-color);
+}
+
+/* Responsive design */
 @media (max-width: 850px) {
   .container {
     width: 90%;
@@ -116,10 +302,18 @@ button:hover {
   }
 }
 
-/* 針對非常小的螢幕 */
 @media (max-width: 650px) {
   .container {
     width: 95%;
     min-width: 320px;
+    height: 90vh;
+  }
+
+  .chat-messages {
+    height: calc(90vh - 220px);
+  }
+
+  .user-message {
+    max-width: 90% !important;
   }
 }
