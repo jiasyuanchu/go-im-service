@@ -294,7 +294,6 @@ button:hover {
   color: var(--primary-color);
 }
 
-/* Responsive design */
 @media (max-width: 850px) {
   .container {
     width: 90%;
