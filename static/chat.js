@@ -117,7 +117,6 @@ document.addEventListener('DOMContentLoaded', () => {
       messageElement.style.backgroundColor = userColor;
       messageElement.style.color = "#333";
 
-      // 創建內容元素以確保長文本正確換行
       messageElement.textContent = `[${timestamp}] ${message.sender}: ${message.content}`;
     }
 
@@ -125,7 +124,6 @@ document.addEventListener('DOMContentLoaded', () => {
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
   }
 
-  // 當使用者離開時清理顏色（可選）
   window.onbeforeunload = function () {
     if (ws && ws.readyState === WebSocket.OPEN) {
       const username = usernameInput.value.trim();
