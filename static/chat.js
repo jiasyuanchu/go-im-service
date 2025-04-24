@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
       };
       ws.send(JSON.stringify(leaveMessage));
       ws.close();
-      userColors.delete(username); // 清理該使用者的顏色
+      userColors.delete(username);
     }
   };
 
