@@ -7,7 +7,6 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-// Client structure
 type Client struct {
 	ID       string
 	Conn     *websocket.Conn
