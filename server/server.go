@@ -34,7 +34,6 @@ func NewServer() *Server {
 	}
 }
 
-// SetupRoutes configures the server routes
 func (s *Server) SetupRoutes() {
 	// Serve static files
 	s.router.Static("/static", "./static")
