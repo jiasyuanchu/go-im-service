@@ -37,7 +37,6 @@ func NewServer() *Server {
 func (s *Server) SetupRoutes() {
 	s.router.Static("/static", "./static")
 
-	// Home page
 	s.router.GET("/", func(c *gin.Context) {
 		c.File("./static/index.html")
 	})
