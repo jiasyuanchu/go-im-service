@@ -24,7 +24,6 @@ func NewServer() *Server {
 	roomService := service.NewRoomService()
 	go roomService.Run()
 
-	// Initialize WebSocket controller
 	wsController := controller.NewWebSocketController(roomService.GetRoom())
 
 	return &Server{
