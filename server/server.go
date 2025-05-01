@@ -40,7 +40,6 @@ func (s *Server) SetupRoutes() {
 		c.File("./static/index.html")
 	})
 
-	// WebSocket endpoint
 	s.router.GET("/ws", s.wsController.HandleWebSocket)
 }
 
