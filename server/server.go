@@ -43,7 +43,6 @@ func (s *Server) SetupRoutes() {
 	s.router.GET("/ws", s.wsController.HandleWebSocket)
 }
 
-// Run starts the server
 func (s *Server) Run() {
 	log.Println("Server starting on :8080")
 	if err := s.router.Run(":8080"); err != nil {
