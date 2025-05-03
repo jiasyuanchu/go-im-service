@@ -20,7 +20,6 @@ func NewServer() *Server {
 	// Initialize router
 	router := gin.Default()
 
-	// Initialize room service
 	roomService := service.NewRoomService()
 	go roomService.Run()
 
