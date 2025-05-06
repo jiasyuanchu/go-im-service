@@ -15,7 +15,6 @@ type Server struct {
 	wsController *controller.WebSocketController
 }
 
-// NewServer creates a new Server instance
 func NewServer() *Server {
 	// Initialize router
 	router := gin.Default()
