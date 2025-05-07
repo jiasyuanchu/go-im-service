@@ -8,7 +8,6 @@ import (
 	"github.com/jiasyuanchu/go-im-service/service"
 )
 
-// Server manages the HTTP server
 type Server struct {
 	router       *gin.Engine
 	roomService  *service.RoomService
