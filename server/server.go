@@ -15,7 +15,7 @@ type Server struct {
 }
 
 func NewServer() *Server {
-	// Initialize router
+
 	router := gin.Default()
 
 	roomService := service.NewRoomService()
