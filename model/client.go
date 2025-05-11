@@ -14,7 +14,6 @@ type Client struct {
 	Send     chan []byte
 }
 
-// WritePump handles writing messages to the client
 func (c *Client) WritePump() {
 	ticker := time.NewTicker(30 * time.Second) // every 30 seconds
 	defer func() {
