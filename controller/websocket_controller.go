@@ -10,7 +10,6 @@ import (
 	"github.com/jiasyuanchu/go-im-service/model"
 )
 
-// WebSocket upgrader
 var upgrader = websocket.Upgrader{
 	ReadBufferSize:  1024,
 	WriteBufferSize: 1024,
